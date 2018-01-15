@@ -21,7 +21,7 @@ function insert_people($conn){
 }
 
 function getPeople($conn){
-    $query = "SELECT *FROM people ORDER BY added_date desc";
+    $query = "SELECT * FROM people ORDER BY enabled DESC";
     $result = $conn->query($query);
     if($result->num_rows > 0){
         return mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -31,6 +31,19 @@ function getPeople($conn){
 
 function disable_people($conn, $id){
     $query = "UPDATE people set enabled=0 WHERE id = $id";
+    if($conn->query($query)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function update_people($conn){
+    $name = $_POST["people_name"];
+    $rent = $_POST["rent"];
+    $rent_date = $_POST["rent_date"];
+    $id = $_POST["id"];
+    $query = "UPDATE people set name='$name', rent='$rent', rent_date='$rent_date' WHERE id= $id";
     if($conn->query($query)){
         return true;
     }else{
