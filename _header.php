@@ -33,13 +33,13 @@ include_once 'db_connect.php';
 
         <ul id="menu-content" class="menu-content collapse out">
 
-            <li  data-toggle="collapse" data-target="#products" class="collapsed active">
+            <li  data-toggle="collapse" class="collapsed">
                 <a href="index.php"><i class="fa fa-home fa-lg"></i> Home </a>
             </li>
-            <li  data-toggle="collapse" data-target="#products" class="collapsed active">
+            <li  data-toggle="collapse" class="collapsed">
                 <a href="rent.php"><i class="fa fa-money fa-lg"></i> Rent </a>
             </li>
-            <li data-toggle="collapse" data-target="#service" class="collapsed">
+            <li data-toggle="collapse" class="collapsed">
                 <a href="people.php"><i class="fa fa-group fa-lg"></i> People in Rent</a>
             </li>
         </ul>
