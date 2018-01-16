@@ -52,8 +52,8 @@ function disable_people($conn, $id){
 }
 if(isset($_POST['get_rent'])){
     $usr=$_POST['usr'];
-    $stmt=$conn->prepare('Select * from people where name=?');
-    $stmt->bind_param('s',$usr);
+    $stmt=$conn->prepare('Select * from people where id=?');
+    $stmt->bind_param('i',$usr);
     if($stmt->execute()){
         $result=$stmt->get_result();
         if($result->num_rows >0){
@@ -64,22 +64,37 @@ if(isset($_POST['get_rent'])){
 
 }
 function insert_rent($conn){
-    $usr=$_POST['usr'];
+    $people_id = $_POST["usr"];
+    $usr=get_people_info($conn, $people_id)["name"];
     $year=$_POST['year'];
     $rent=$_POST['rent'];
     $month=$_POST['month'];
     $previous_electricity_unit=$_POST['previous_electricity_unit'];
     $current_electricity_unit=$_POST['current_electricity_unit'];
     $water_cost=$_POST['water_cost'];
-
-    $stmt=$conn->prepare('INSERT INTO rent_record(name,year,month,rent,previous_electricity_unit,current_electricity_unit,water_cost) VALUES (?,?,?,?,?,?,?)');
-    $stmt->bind_param('sisiiii',$usr,$year,$month,$rent,$previous_electricity_unit,$current_electricity_unit,$water_cost);
-    if($stmt->execute()){
+    $electricity_bill = ($current_electricity_unit-$previous_electricity_unit)*get_electricity_price($conn);
+    $previous_rent = $_POST['previous_rent'];
+    $query = "INSERT INTO rent_record(name,year,month,rent,previous_electricity_unit,current_electricity_unit,electricity_bill,water_cost, previous_rent, people_id) 
+              VALUES ('$usr',$year,'$month',$rent,$previous_electricity_unit,$current_electricity_unit,$electricity_bill,$water_cost, $previous_rent, $people_id)";
+    if ($conn->query($query)){
         return true;
     }
     return false;
 
 }
+
+function get_people_info($conn, $id){
+    $stmt=$conn->prepare('Select * from people where id=?');
+    $stmt->bind_param('i',$id);
+    if($stmt->execute()){
+        $result=$stmt->get_result();
+        if($result->num_rows >0){
+            return mysqli_fetch_assoc($result);
+        }
+    }
+    return 0;
+}
+
 function getRentList($conn){
     $query = "SELECT * FROM rent_record ORDER by id DESC ";
     $result = $conn->query($query);
@@ -108,32 +123,59 @@ if(isset($_POST['edit_rent'])){
     if($stmt->execute()){
         $result= $stmt->get_result();
         if($result->num_rows > 0){
-            echo json_encode(mysqli_fetch_assoc($result)) ;
-
+            echo json_encode(mysqli_fetch_assoc($result));
+            return;
         }
     }
     return[];
 }
+if(isset($_POST['get_previous_electricity'])){
+    $id = $_POST['usr'];
+    $query = "SELECT *FROM rent_record WHERE people_id=$id ORDER by current_electricity_unit DESC LIMIT 1";
+    $result = $conn->query($query);
+    if($result->num_rows > 0){
+        echo mysqli_fetch_assoc($result)["current_electricity_unit"];
+        return;
+    }
+    echo 0;
+}
 function update_rent($conn){
-    var_dump($_POST);
     $id=$_POST['id'];
-    $usr=$_POST['usr'];
+    $people_id = $_POST["usr"];
+    $usr=get_people_info($conn, $people_id)["name"];
     $year=$_POST['year'];
     $rent=$_POST['rent'];
     $month=$_POST['month'];
     $previous_electricity_unit=$_POST['previous_electricity_unit'];
     $current_electricity_unit=$_POST['current_electricity_unit'];
     $water_cost=$_POST['water_cost'];
-
-    $stmt=$conn->prepare('UPDATE rent_record SET name=?,year=?,month=?,rent=?,previous_electricity_unit=?,current_electricity_unit=?,water_cost=? WHERE id=?');
-    $stmt->bind_param('sisiiiii',$usr,$year,$month,$rent,$previous_electricity_unit,$current_electricity_unit,$water_cost,$id);
-    if($stmt->execute()){
+    $electricity_bill = ($current_electricity_unit-$previous_electricity_unit)*get_electricity_price($conn);
+    $previous_rent = $_POST["previous_rent"];
+    $query = "UPDATE rent_record SET name='$usr',year=$year,month='$month', 
+              rent=$rent,previous_electricity_unit=$previous_electricity_unit,current_electricity_unit=$current_electricity_unit,
+              water_cost=$water_cost, electricity_bill=$electricity_bill, previous_rent=$previous_rent, people_id = $people_id WHERE id=$id";
+    if ($conn->query($query)){
         return true;
     }
     return false;
-
-
 }
+
+function update_status($conn, $id){
+    $query = "UPDATE rent_record set status=1 WHERE id=$id";
+    if($conn->query($query)){
+        return true;
+    }
+    return false;
+}
+
+function delete_rent($conn, $id){
+    $query = "DELETE FROM rent_record WHERE id=$id";
+    if($conn->query($query)){
+        return true;
+    }
+    return false;
+}
+
 
 function update_people($conn){
     $name = $_POST["people_name"];
@@ -146,4 +188,22 @@ function update_people($conn){
     }else{
         return false;
     }
+}
+
+function get_electricity_price($conn){
+    $query = "SELECT *FROM electricity_charge LIMIT 1";
+    $result = $conn->query($query);
+    if($result->num_rows > 0){
+        return mysqli_fetch_assoc($result)["rate"];
+    }
+    return 13;
+}
+
+function get_rent($conn, $id){
+    $query = "SELECT *FROM rent_record WHERE id=$id LIMIT 1";
+    $result = $conn->query($query);
+    if($result->num_rows > 0){
+        return mysqli_fetch_assoc($result);
+    }
+    return null;
 }

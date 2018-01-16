@@ -9,3 +9,17 @@ function edit_people(name, rent, rent_date, id){
     $("#edit_id").val(id);
     $("#edit_people").modal('show');
 }
+
+function change_ebill(rate) {
+    var punit = $("#previous_electricity_unit").val();
+    var cunit = $("#current_electricity_unit").val();
+    var price = (cunit-punit)*rate;
+    $("#electricity_bill").val(price);
+}
+
+function change_ebill_edit(rate) {
+    var punit = $("#previous_electricity_unit1").val();
+    var cunit = $("#current_electricity_unit1").val();
+    var price = (cunit-punit)*rate;
+    $("#electricity_bill1").val(price);
+}

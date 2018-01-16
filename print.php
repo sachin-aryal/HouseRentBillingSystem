@@ -1,0 +1,115 @@
+<?php
+include_once '_header.php';
+$id = $_GET['id'];
+$rent = get_rent($conn, $id);
+?>
+<meta charset="utf-8"/>
+<script src="js/jquery.PrintArea.js" type="text/javascript"></script>
+<style>
+    @media print {
+        @page { margin: 0; }
+    }
+</style>
+<script type="text/javascript">
+    function print_div(){
+        var mode = 'iframe'; //popup
+        var close = mode == "popup";
+        var options = { mode : mode, popClose : close};
+        $("#print-section").printArea( options );
+    }
+</script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-3 col-md-9">
+            <div id="print-section" class="row" style="width:90%;padding: 30px 30px 50px;border: 2px solid black;margin: 0 auto;background-color: #d7efc5 !important;">
+                <div style="text-align: center">
+                    <h2>दिपा अपार्टमेन्ट Pvt. Ltd</h2>
+                    <h3>घर भाडा</h3>
+                </div>
+                <table style="float: right;width: 20%">
+                    <tr>
+                        <th colspan="2">मिति :</th>
+                        <td><?php echo $rent["year"] ?></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">महिना :</th>
+                        <td><?php echo $rent["month"] ?></td>
+                    </tr>
+                </table>
+                <table style="width: 100%">
+                    <tr>
+                        <th colspan="4">बाहलावालाको नाम :</th>
+                        <td><?php echo $rent['name'] ?></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">जम्मा घर भाडा :</th>
+                        <td><?php echo $rent['rent'] ?></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">पहिला को बाकि :</th>
+                        <td><?php echo $rent['previous_rent'] ?></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">बत्तिको रु :</th>
+                        <td>
+                            <?php echo $rent['electricity_bill'] ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">पहिला बत्तिको </th>
+                        <td><?php echo $rent["previous_electricity_unit"] ?> युनिट</td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">अहिले बत्तिको </th>
+                        <td><?php echo $rent["current_electricity_unit"] ?> युनिट</td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">खपत गरेको बिजुली :</th>
+                        <td><?php echo $rent["current_electricity_unit"] - $rent["previous_electricity_unit"] ?> युनिट</td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">बत्तिको दर रु :</th>
+                        <td><?php echo get_electricity_price($conn) ?> प्रती युनिट</td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">पानीको रु :</th>
+                        <td>
+                            <?php echo $rent['water_cost'] ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">कुल जम्मा रु :</th>
+                        <td>
+                            <?php
+                            $total=$rent['rent']+$rent['electricity_bill']+$rent["water_cost"]+$rent["previous_rent"];
+                            echo $total;
+                            ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                           .....................................................
+                        </td>
+                        <td>
+                            .....................................................
+                        </td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">
+                            बुझाउने को सही
+                        </th>
+                        <th>
+                            बुझिलिने को सही
+                        </th>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-offset-10 col-md-2" style="margin-top: 10px;margin-left: 10px">
+                <button style="margin-left: 15px;" class="btn btn-primary" onclick="print_div()">Print</button>
+            </div>
+        </div>
+    </div>
+</div>
