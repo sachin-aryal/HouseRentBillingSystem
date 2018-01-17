@@ -1,0 +1,6 @@
+{
+  "require": {
+    "fivedots/nepalicalendar":"*",
+    "phpmailer/phpmailer": "^6.0"
+  }
+}

@@ -11,7 +11,8 @@ function insert_people($conn){
     $name = $_POST["people_name"];
     $rent = $_POST["rent"];
     $rent_date = $_POST["rent_date"];
-    $query = "INSERT INTO people(name, rent, rent_date) VALUES ('$name', '$rent', '$rent_date')";
+    $email = $_POST["email"];
+    $query = "INSERT INTO people(name, rent, rent_date, email) VALUES ('$name', '$rent', '$rent_date', '$email')";
     if($conn->query($query)){
         return true;
     }else{
@@ -182,7 +183,8 @@ function update_people($conn){
     $rent = $_POST["rent"];
     $rent_date = $_POST["rent_date"];
     $id = $_POST["id"];
-    $query = "UPDATE people set name='$name', rent='$rent', rent_date='$rent_date' WHERE id= $id";
+    $email = $_POST["email"];
+    $query = "UPDATE people set name='$name', rent='$rent', rent_date='$rent_date', email = '$email' WHERE id= $id";
     if($conn->query($query)){
         return true;
     }else{

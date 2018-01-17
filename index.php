@@ -6,6 +6,10 @@
  * Time: 10:21 AM
  */
 include_once '_header.php';
+$today = $calendar->englishToNepali(date('Y'), date('m'), date('d'));
+$nepali_year = $today["year"];
+$nepali_month = $today["nmonth"];
+
 $message = "";
 $messageType = "";
 if(isset($_POST["new_rent"])){
@@ -50,7 +54,56 @@ $unit_rate = get_electricity_price($conn);
 ?>
 <script type="text/javascript">
     $(function () {
-        $('#rent-list').DataTable();
+        $.fn.dataTable.Api.register( 'column().title()', function () {
+            var colheader = this.header();
+            return $(colheader).text().trim();
+        } );
+        $("#year").val('<?php echo $nepali_year ?>');
+        $("#month").val('<?php echo $nepali_month ?>');
+        var rent_list = $('#rent-list').DataTable({
+            drawCallback: function () {
+                var api = this.api();
+                $( api.column( 0 ).footer() ).html('Total');
+                $( api.column( 3 ).footer() ).html(
+                    api.column( 3, {page:'current'} ).data().sum()
+                );
+                $( api.column( 4 ).footer() ).html(
+                    api.column( 4, {page:'current'} ).data().sum()
+                );
+                $( api.column( 5 ).footer() ).html(
+                    api.column( 5, {page:'current'} ).data().sum()
+                );
+                $( api.column( 5 ).footer() ).html(
+                    api.column( 5, {page:'current'} ).data().sum()
+                );
+                $( api.column( 6 ).footer() ).html(
+                    api.column( 6, {page:'current'} ).data().sum()
+                );
+                $( api.column( 7 ).footer() ).html(
+                    api.column( 7, {page:'current'} ).data().sum()
+                );
+            },
+            initComplete: function () {
+                this.api().columns([1,2]).every( function () {
+                    var column = this;
+                    var select = $('<select><option value="">'+column.title()+'</option></select>')
+                        .appendTo( $(column.header()).empty() )
+                        .on( 'change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search( val ? '^'+val+'$' : '', true, false )
+                                .draw();
+                        } );
+
+                    column.data().unique().sort().each( function ( d, j ) {
+                        select.append( '<option value="'+d+'">'+d+'</option>' )
+                    } );
+                } );
+            }
+        });
         notify("<?php echo $message ?>", "<?php echo $messageType ?>");
         var uri = window.location.toString();
         if (uri.indexOf("?") > 0) {
@@ -117,8 +170,8 @@ $unit_rate = get_electricity_price($conn);
     <div class="row">
         <div class="col-md-offset-3 col-md-9">
             <div id="one-row" style="margin-top: 10px">
-                <h2 style="display: inline-block">Peoples Rent</h2>
-                <button style="float: right" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add People Rent</button>
+                <h2 style="display: inline-block">Rent</h2>
+                <button style="float: right" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Rent</button>
             </div>
             <table id="rent-list" class="display">
                 <thead>
@@ -180,6 +233,20 @@ $unit_rate = get_electricity_price($conn);
                 }
                 ?>
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -190,14 +257,14 @@ $unit_rate = get_electricity_price($conn);
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Peoples Rent</h4>
+                    <h4 class="modal-title">Add Rent</h4>
                 </div>
                 <div class="modal-body">
                     <form method="post" action="index.php">
                         <div class="form-group">
                             <label for="usr">Name:</label>
                             <select id="usr" name="usr" onchange="fetch_rent()" class="form-control">
-                                <option>Select People</option>
+                                <option>Select Tenant</option>
                                 <?php
                                 $users=getPeopleList($conn,1);
                                 foreach ($users as $user) {
@@ -212,7 +279,7 @@ $unit_rate = get_electricity_price($conn);
                             <label for="year">Year:</label>
                             <select name="year" id="year" class="form-control">
                                 <?php
-                                for($i=2070;$i<=2150;$i++) {
+                                for($i=2074;$i<=2274;$i++) {
                                     ?>
                                     <option value="<?php echo $i?>"><?php echo $i?></option>
                                     <?php
@@ -275,7 +342,7 @@ $unit_rate = get_electricity_price($conn);
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Update</h4>
+                    <h4 class="modal-title">Update Rent</h4>
                 </div>
                 <div class="modal-body">
                     <form method="post" action="index.php">
@@ -283,7 +350,7 @@ $unit_rate = get_electricity_price($conn);
                         <div class="form-group">
                             <label for="usr">Name:</label>
                             <select id="usr1" name="usr" onchange="fetch_rent_edit()" class="form-control">
-                                <option>Select People</option>
+                                <option>Select Tenant</option>
                                 <?php
                                 $users=getPeopleList($conn,1);
                                 foreach ($users as $user) {
@@ -298,7 +365,7 @@ $unit_rate = get_electricity_price($conn);
                             <label for="year">Year:</label>
                             <select name="year" id="year1" class="form-control">
                                 <?php
-                                for($i=2070;$i<=2150;$i++) {
+                                for($i=2074;$i<=2274;$i++) {
                                     ?>
                                     <option value="<?php echo $i?>"><?php echo $i?></option>
                                     <?php

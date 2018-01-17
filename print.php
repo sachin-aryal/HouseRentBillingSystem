@@ -2,6 +2,11 @@
 include_once '_header.php';
 $id = $_GET['id'];
 $rent = get_rent($conn, $id);
+$people = get_people_info($conn, $rent["people_id"]);
+$today = $calendar->englishToNepali(date('Y'), date('m'), date('d'));
+$nepali_day = $today["numDay"];
+$nepali_month = $today["nmonth"];
+$nepali_year = $today["year"];
 ?>
 <meta charset="utf-8"/>
 <script src="js/jquery.PrintArea.js" type="text/javascript"></script>
@@ -17,6 +22,28 @@ $rent = get_rent($conn, $id);
         var options = { mode : mode, popClose : close};
         $("#print-section").printArea( options );
     }
+    <?php
+    $message = "";
+    $messageType = "";
+    if(isset($_GET["m"])){
+        $m = $_GET["m"];
+        if($m == 'y'){
+            $message = "Email Sent Successfully.";
+            $messageType = "info";
+        }else{
+            $message = $_GET["me"];
+            $messageType = "error";
+        }
+    }
+    ?>
+    $(function () {
+        notify("<?php echo $message ?>", "<?php echo $messageType ?>");
+        var uri = window.location.toString();
+        if (uri.indexOf("?") > 0) {
+            var clean_uri = uri.substring(0, uri.indexOf("?"));
+            window.history.replaceState({}, document.title, clean_uri);
+        }
+    })
 </script>
 <div class="container">
     <div class="row">
@@ -29,11 +56,7 @@ $rent = get_rent($conn, $id);
                 <table style="float: right;width: 20%">
                     <tr>
                         <th colspan="2">मिति :</th>
-                        <td><?php echo $rent["year"] ?></td>
-                    </tr>
-                    <tr>
-                        <th colspan="2">महिना :</th>
-                        <td><?php echo $rent["month"] ?></td>
+                        <td><?php echo $nepali_month. ' '. $nepali_day.', '.$nepali_year ?></td>
                     </tr>
                 </table>
                 <table style="width: 100%">
@@ -46,7 +69,7 @@ $rent = get_rent($conn, $id);
                         <td><?php echo $rent['rent'] ?></td>
                     </tr>
                     <tr>
-                        <th colspan="4">पहिला को बाकि :</th>
+                        <th colspan="4">पहिलाको बाकि :</th>
                         <td><?php echo $rent['previous_rent'] ?></td>
                     </tr>
                     <tr>
@@ -55,14 +78,14 @@ $rent = get_rent($conn, $id);
                             <?php echo $rent['electricity_bill'] ?>
                         </td>
                     </tr>
-                    <tr>
-                        <th colspan="4">पहिला बत्तिको </th>
-                        <td><?php echo $rent["previous_electricity_unit"] ?> युनिट</td>
-                    </tr>
-                    <tr>
-                        <th colspan="4">अहिले बत्तिको </th>
-                        <td><?php echo $rent["current_electricity_unit"] ?> युनिट</td>
-                    </tr>
+<!--                    <tr>-->
+<!--                        <th colspan="4">पहिला बत्तिको </th>-->
+<!--                        <td>--><?php //echo $rent["previous_electricity_unit"] ?><!-- युनिट</td>-->
+<!--                    </tr>-->
+<!--                    <tr>-->
+<!--                        <th colspan="4">अहिले बत्तिको </th>-->
+<!--                        <td>--><?php //echo $rent["current_electricity_unit"] ?><!-- युनिट</td>-->
+<!--                    </tr>-->
                     <tr>
                         <th colspan="4">खपत गरेको बिजुली :</th>
                         <td><?php echo $rent["current_electricity_unit"] - $rent["previous_electricity_unit"] ?> युनिट</td>
@@ -99,16 +122,19 @@ $rent = get_rent($conn, $id);
                     </tr>
                     <tr>
                         <th colspan="4">
-                            बुझाउने को सही
+                            बुझाउनेको सही
                         </th>
                         <th>
-                            बुझिलिने को सही
+                            बुझिलिनेको सही
                         </th>
                     </tr>
                 </table>
             </div>
-            <div class="col-md-offset-10 col-md-2" style="margin-top: 10px;margin-left: 10px">
+            <div class="col-md-offset-8 col-md-4" style="margin-top: 10px;margin-left: 10px">
                 <button style="margin-left: 15px;" class="btn btn-primary" onclick="print_div()">Print</button>
+                <?php if($people["email"] != "") {?>
+                <a href="send_email.php?id=<?php echo $id ?>" class="btn btn-info">Send Email</a>
+                <?php } ?>
             </div>
         </div>
     </div>

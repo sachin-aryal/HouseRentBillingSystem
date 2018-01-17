@@ -1,6 +1,8 @@
 <?php
 ob_start();
 include_once 'db_connect.php';
+require __DIR__.'/vendor/autoload.php';
+$calendar = new Fivedots\NepaliCalendar\Calendar(new \Fivedots\NepaliCalendar\NepaliDataProvider());
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,6 +18,7 @@ include_once 'db_connect.php';
     <script src="js/bootstrap.js" type="text/javascript"></script>
     <script src="js/notify.min.js" type="text/javascript"></script>
     <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="js/datatable.sum.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="nav-side-menu">
@@ -27,13 +30,13 @@ include_once 'db_connect.php';
         <ul id="menu-content" class="menu-content collapse out">
 
             <li>
-                <a href="index.php"><i class="fa fa-home fa-lg"></i> Home </a>
+                <a href="index.php"><i class="fa fa-home fa-lg"></i> Rent </a>
             </li>
             <li>
                 <a href="electricity_rate.php"><i class="fa fa-money fa-lg"></i> Electricity Rate </a>
             </li>
             <li>
-                <a href="people.php"><i class="fa fa-group fa-lg"></i> People in Rent</a>
+                <a href="people.php"><i class="fa fa-group fa-lg"></i> Tenant</a>
             </li>
         </ul>
     </div>
