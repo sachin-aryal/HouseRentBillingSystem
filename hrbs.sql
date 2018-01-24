@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 16, 2018 at 04:24 AM
+-- Generation Time: Jan 24, 2018 at 04:41 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -38,7 +38,19 @@ CREATE TABLE `electricity_charge` (
 --
 
 INSERT INTO `electricity_charge` (`id`, `rate`) VALUES
-(1, 11);
+(1, 15);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `left_to_return`
+--
+
+CREATE TABLE `left_to_return` (
+  `id` int(11) NOT NULL,
+  `remain_to_give` int(11) NOT NULL,
+  `people_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -52,15 +64,17 @@ CREATE TABLE `people` (
   `rent` varchar(100) NOT NULL,
   `rent_date` varchar(100) NOT NULL,
   `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `enabled` tinyint(1) NOT NULL DEFAULT '1'
+  `enabled` tinyint(1) NOT NULL DEFAULT '1',
+  `email` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `people`
 --
 
-INSERT INTO `people` (`id`, `name`, `rent`, `rent_date`, `added_date`, `enabled`) VALUES
-(4, 'Sachin Aryal', '14500', '2074/5/4', '2018-01-15 06:50:23', 0);
+INSERT INTO `people` (`id`, `name`, `rent`, `rent_date`, `added_date`, `enabled`, `email`) VALUES
+(4, 'Ashish Bikram Lamichhane', '14500', '2074/5/4', '2018-01-15 06:50:23', 1, 'bikram.ashish@gmail.com'),
+(5, 'James', '200000', '', '2018-01-24 14:37:18', 1, 'bikram.ashish@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -124,6 +138,13 @@ ALTER TABLE `electricity_charge`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `left_to_return`
+--
+ALTER TABLE `left_to_return`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `people_id` (`people_id`);
+
+--
 -- Indexes for table `people`
 --
 ALTER TABLE `people`
@@ -146,16 +167,32 @@ ALTER TABLE `electricity_charge`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `left_to_return`
+--
+ALTER TABLE `left_to_return`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `people`
 --
 ALTER TABLE `people`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `rent_record`
 --
 ALTER TABLE `rent_record`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `left_to_return`
+--
+ALTER TABLE `left_to_return`
+  ADD CONSTRAINT `left_to_return_ibfk_1` FOREIGN KEY (`people_id`) REFERENCES `people` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
