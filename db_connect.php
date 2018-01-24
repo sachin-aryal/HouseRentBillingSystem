@@ -2,13 +2,24 @@
 
 $db_user = "root";
 $db_host = "localhost";
-$db_password = "root";
+$db_password = "";
 $db_name = "hrbs";
 
 $conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
 
+function insert_return ($conn){
+    $people_id = $_POST["usr"];
+    $remain_to_return = $_POST["remain_to_return"];
+    $query = "INSERT INTO left_to_return(remain_to_give, people_id) VALUES ('$remain_to_return', '$people_id')";
+    if($conn->query($query)){
+        return true;
+    }else{
+        return false;
+    }
+
+}
 function insert_people($conn){
-    $name = $_POST["people_name"];
+    $name = $_POST["usr"];
     $rent = $_POST["rent"];
     $rent_date = $_POST["rent_date"];
     $email = $_POST["email"];
@@ -18,7 +29,6 @@ function insert_people($conn){
     }else{
         return false;
     }
-
 }
 
 function getPeople($conn){
@@ -140,6 +150,24 @@ if(isset($_POST['get_previous_electricity'])){
     }
     echo 0;
 }
+function update_return($conn){
+    $id=$_POST['id'];
+    $people_id = $_POST["name"];
+    $remain_to_return=$_POST["remain_to_return"];
+    $query = "UPDATE left_to_return SET people_id=$people_id,remain_to_give=$remain_to_return WHERE id=$id";
+    if ($conn->query($query)){
+        return true;
+    }
+    return false;
+}
+function delete_return($conn, $id){
+    $query = "DELETE FROM left_to_return WHERE id=$id";
+    if($conn->query($query)){
+        return true;
+    }
+    return false;
+
+}
 function update_rent($conn){
     $id=$_POST['id'];
     $people_id = $_POST["usr"];
@@ -200,6 +228,15 @@ function get_electricity_price($conn){
     }
     return 13;
 }
+function getLeftTOReturn($conn){
+    $query = "SELECT * FROM left_to_return";
+    $result = $conn->query($query);
+    if($result->num_rows > 0){
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+    return [];
+}
+
 
 function get_rent($conn, $id){
     $query = "SELECT *FROM rent_record WHERE id=$id LIMIT 1";

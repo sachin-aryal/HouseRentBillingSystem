@@ -10,6 +10,14 @@ function edit_people(name, rent, rent_date, id, email){
     $("#edit_email").val(email);
     $("#edit_people").modal('show');
 }
+function edit_return(id, people_id, remain_to_give){
+    alert('ashish');
+    $("#edit_id").val(id);
+    $("#edit_name").val(people_id);
+    $("#edit_remain_to_return").val(remain_to_give);
+
+    $("#edit_return").modal('show');
+}
 
 function change_ebill(rate) {
     var punit = $("#previous_electricity_unit").val();
