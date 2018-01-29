@@ -58,7 +58,7 @@ $peoples = getPeople($conn);
 </script>
 <div class="container">
     <div class="row">
-        <div class="col-md-offset-3 col-md-9">
+        <div class="col-md-offset-2 col-md-10">
             <div id="one-row" style="margin-top: 10px">
                 <h2 style="display: inline-block">Tenant</h2>
                 <button style="float: right" type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-people">Add New Tenant</button>

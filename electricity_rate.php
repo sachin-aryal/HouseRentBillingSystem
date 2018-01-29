@@ -18,7 +18,7 @@ $charge=getElectricityRate($conn);
 
 <div class="container">
     <div class="row">
-        <div class="col-md-offset-4 col-md-4">
+        <div class="col-md-offset-2 col-md-10">
             <h2>Electricity Rate</h2>
             <?php if(isset($_POST['edit_rate'])){?>
                 <form method="post" action="electricity_rate.php">

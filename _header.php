@@ -3,6 +3,7 @@ ob_start();
 include_once 'db_connect.php';
 require __DIR__.'/vendor/autoload.php';
 $calendar = new Fivedots\NepaliCalendar\Calendar(new \Fivedots\NepaliCalendar\NepaliDataProvider());
+error_reporting(0);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +38,9 @@ $calendar = new Fivedots\NepaliCalendar\Calendar(new \Fivedots\NepaliCalendar\Ne
             </li>
             <li>
                 <a href="people.php"><i class="fa fa-group fa-lg"></i> Tenant</a>
+            </li>
+            <li>
+                <a href="left_to_return.php"><i class="fa fa-bell fa-lg"></i> Change</a>
             </li>
         </ul>
     </div>

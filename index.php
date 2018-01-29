@@ -82,6 +82,12 @@ $unit_rate = get_electricity_price($conn);
                 $( api.column( 7 ).footer() ).html(
                     api.column( 7, {page:'current'} ).data().sum()
                 );
+                $( api.column( 8 ).footer() ).html(
+                    api.column( 8, {page:'current'} ).data().sum()
+                );
+                $( api.column( 9 ).footer() ).html(
+                    api.column( 9, {page:'current'} ).data().sum()
+                );
             },
             initComplete: function () {
                 this.api().columns([1,2]).every( function () {
@@ -160,6 +166,7 @@ $unit_rate = get_electricity_price($conn);
                 $('#previous_electricity_unit1').val(data.previous_electricity_unit);
                 $('#water_cost1').val(data.water_cost);
                 $('#previous_rent1').val(data.previous_rent);
+                $('#maintenance_cost1').val(data.maintenance_cost);
                 $('#myModal1').modal('show');
                 change_ebill_edit('<?php echo $unit_rate ?>');
             }
@@ -168,7 +175,7 @@ $unit_rate = get_electricity_price($conn);
 </script>
 <div class="container">
     <div class="row">
-        <div class="col-md-offset-3 col-md-9">
+        <div class="col-md-12" style="margin-left: 130px;width: 90%;">
             <div id="one-row" style="margin-top: 10px">
                 <h2 style="display: inline-block">Rent</h2>
                 <button style="float: right" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add Rent</button>
@@ -182,9 +189,10 @@ $unit_rate = get_electricity_price($conn);
                     <th>Rent</th>
                     <th>Electricity</th>
                     <th>Water</th>
+                    <th>Maintenance Cost</th>
                     <th>Previous Remaining</th>
+                    <th>Paid</th>
                     <th>Total</th>
-                    <th>Status</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -204,26 +212,24 @@ $unit_rate = get_electricity_price($conn);
                             ?>
                         </td>
                         <td><?php echo $rents["water_cost"] ?></td>
+                        <td><?php echo $rents["maintenance_cost"] ?></td>
                         <td><?php echo $rents["previous_rent"] ?></td>
+                        <?php
+                        $total=$rents['rent']+$rents['electricity_bill']+$rents["water_cost"]+$rents["previous_rent"];
+                        if($rents['status']==0){
+                            echo "<td style='color: red'>0</td>";
+                        }else{
+                            echo "<td style='color: green'>$total</td>";
+                        }
+                        ?>
                         <td><?php
-                            $total=$rents['rent']+$rents['electricity_bill']+$rents["water_cost"]+$rents["previous_rent"];
                             echo $total;
                             ?>
                         </td>
                         <td>
-                            <?php
-                            if($rents['status']==0){
-                                echo '<span style="color: red">Unpaid</span>';
-                            }else{
-                                echo '<span style="color: green">Paid</span>';
-                            }
-                            ?>
-
-                        </td>
-                        <td>
                             <?php if($rents['status'] == 0){ ?>
-                            <a href="#" type="button" class="btn-link" onclick="editRent(<?php echo $rents['id'] ?>)" >Edit</a><br>
-                            <a class="btn-link" href="index.php?paid=true&id=<?php echo $rents['id'] ?>">Paid</a>
+                                <a href="#" type="button" class="btn-link" onclick="editRent(<?php echo $rents['id'] ?>)" >Edit</a><br>
+                                <a class="btn-link" href="index.php?paid=true&id=<?php echo $rents['id'] ?>">Paid</a>
                             <?php } ?>
                             <a class="btn-link" href="index.php?delete=true&id=<?php echo $rents['id'] ?>">Delete</a>
                         </td>
@@ -325,6 +331,10 @@ $unit_rate = get_electricity_price($conn);
                             <input type="number" name="water_cost" class="form-control" id="water_cost">
                         </div>
                         <div class="form-group">
+                            <label for="maintenance_cost">Maintenance Cost:</label>
+                            <input type="number" name="maintenance_cost" class="form-control" id="maintenance_cost">
+                        </div>
+                        <div class="form-group">
                             <label for="previous_rent">Previous Remaining:</label>
                             <input value="0" type="number" name="previous_rent" class="form-control" id="previous_rent">
                         </div>
@@ -391,24 +401,28 @@ $unit_rate = get_electricity_price($conn);
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="rent">Rent:</label>
+                            <label for="rent1">Rent:</label>
                             <input readonly type="number" name="rent" class="form-control" id="rent1">
                         </div>
                         <div class="form-group">
-                            <label for="previous_electricity_unit">Previous Electricity Unit:</label>
+                            <label for="previous_electricity_unit1">Previous Electricity Unit:</label>
                             <input type="number" onkeyup="change_ebill_edit('<?php echo $unit_rate ?>')" name="previous_electricity_unit" class="form-control" id="previous_electricity_unit1">
                         </div>
                         <div class="form-group">
-                            <label for="current_electricity_unit">Current Electricity Unit:</label>
+                            <label for="current_electricity_unit1">Current Electricity Unit:</label>
                             <input type="number" onkeyup="change_ebill_edit('<?php echo $unit_rate ?>')" name="current_electricity_unit" class="form-control" id="current_electricity_unit1">
                         </div>
                         <div class="form-group">
-                            <label for="electricity_bill">Electricity Bill:</label>
+                            <label for="electricity_bill1">Electricity Bill:</label>
                             <input type="text" readonly name="electricity_bill" class="form-control" id="electricity_bill1">
                         </div>
                         <div class="form-group">
-                            <label for="water_cost">Water Cost:</label>
+                            <label for="water_cost1">Water Cost:</label>
                             <input type="number" name="water_cost" class="form-control" id="water_cost1">
+                        </div>
+                        <div class="form-group">
+                            <label for="maintenance_cost1">Maintenance Cost:</label>
+                            <input type="number" name="maintenance_cost" class="form-control" id="maintenance_cost1">
                         </div>
                         <div class="form-group">
                             <label for="previous_rent1">Previous Remaining:</label>

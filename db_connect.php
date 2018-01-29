@@ -2,7 +2,7 @@
 
 $db_user = "root";
 $db_host = "localhost";
-$db_password = "";
+$db_password = "root";
 $db_name = "hrbs";
 
 $conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
@@ -83,10 +83,11 @@ function insert_rent($conn){
     $previous_electricity_unit=$_POST['previous_electricity_unit'];
     $current_electricity_unit=$_POST['current_electricity_unit'];
     $water_cost=$_POST['water_cost'];
+    $maintenance_cost=$_POST['maintenance_cost'];
     $electricity_bill = ($current_electricity_unit-$previous_electricity_unit)*get_electricity_price($conn);
     $previous_rent = $_POST['previous_rent'];
-    $query = "INSERT INTO rent_record(name,year,month,rent,previous_electricity_unit,current_electricity_unit,electricity_bill,water_cost, previous_rent, people_id) 
-              VALUES ('$usr',$year,'$month',$rent,$previous_electricity_unit,$current_electricity_unit,$electricity_bill,$water_cost, $previous_rent, $people_id)";
+    $query = "INSERT INTO rent_record(name,year,month,rent,previous_electricity_unit,current_electricity_unit,electricity_bill,water_cost, previous_rent, people_id, maintenance_cost) 
+              VALUES ('$usr',$year,'$month',$rent,$previous_electricity_unit,$current_electricity_unit,$electricity_bill,$water_cost, $previous_rent, $people_id, $maintenance_cost)";
     if ($conn->query($query)){
         return true;
     }
@@ -178,11 +179,12 @@ function update_rent($conn){
     $previous_electricity_unit=$_POST['previous_electricity_unit'];
     $current_electricity_unit=$_POST['current_electricity_unit'];
     $water_cost=$_POST['water_cost'];
+    $maintenance_cost=$_POST['maintenance_cost'];
     $electricity_bill = ($current_electricity_unit-$previous_electricity_unit)*get_electricity_price($conn);
     $previous_rent = $_POST["previous_rent"];
     $query = "UPDATE rent_record SET name='$usr',year=$year,month='$month', 
               rent=$rent,previous_electricity_unit=$previous_electricity_unit,current_electricity_unit=$current_electricity_unit,
-              water_cost=$water_cost, electricity_bill=$electricity_bill, previous_rent=$previous_rent, people_id = $people_id WHERE id=$id";
+              water_cost=$water_cost, electricity_bill=$electricity_bill, previous_rent=$previous_rent, people_id = $people_id, maintenance_cost = $maintenance_cost WHERE id=$id";
     if ($conn->query($query)){
         return true;
     }

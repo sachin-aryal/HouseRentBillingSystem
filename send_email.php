@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 include_once 'db_connect.php';
 $id = $_GET['id'];
 $rent = get_rent($conn, $id);
@@ -55,9 +56,15 @@ $message.='<tr><td colspan="4">.................................................
 $message.='<td>.....................................................</td></tr>';
 $message.='<tr><th colspan="4"> बुझाउनेको सही </th>';
 $message.='<th> बुझिलिनेको सही </th></tr></table>';
+$message.='<table style="width: 100%;margin-top: 30px;margin-bottom: 0px;text-align: center">';
+$message.='<tr><td>बैंक खाता नम्बर:</td></tr>';
+$message.='<tr><td style="color: red; text-align: center" rowspan="2">भाडा बुझाउने अन्तिम मिति ';
+$message.=$nepali_month. "5";
+$message.='</td></tr></table>';
 $message.='</div></div></div></div>';
 $message.='</body></html>';
-
+echo $message;
+return
 $from = ''; // todo: set from email.
 $to = $tenant["email"];
 $subject = 'Rent Alert';

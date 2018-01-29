@@ -48,7 +48,7 @@ $nepali_year = $today["year"];
 <div class="container">
     <div class="row">
         <div class="col-md-offset-3 col-md-9">
-            <div id="print-section" class="row" style="width:90%;padding: 30px 30px 50px;border: 2px solid black;margin: 0 auto;background-color: #d7efc5 !important;">
+            <div id="print-section" class="row" style="width:90%;padding: 30px 30px 10px;border: 2px solid black;margin: 0 auto;background-color: #d7efc5 !important;">
                 <div style="text-align: center">
                     <h2>Deepa Private Home</h2>
                     <h3>घर भाडा</h3>
@@ -127,6 +127,18 @@ $nepali_year = $today["year"];
                         <th>
                             बुझिलिनेको सही
                         </th>
+                    </tr>
+                </table>
+                <table style="width: 100%;margin-top: 30px;margin-bottom: 0px;text-align: center">
+                    <tr>
+                        <td>
+                            बैंक खाता नम्बर:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: red; text-align: center" rowspan="2">
+                            भाडा बुझाउने अन्तिम मिति <?php echo $nepali_month ?> 5
+                        </td>
                     </tr>
                 </table>
             </div>

@@ -8,7 +8,6 @@
 include_once '_header.php';
 $message = "";
 $messageType = "";
-$left_to_returns=getLeftTOReturn($conn);
 if(isset($_POST["new_return"])){
     if(insert_return($conn)){
         $message = "New Return Money Added Successfully.";
@@ -38,6 +37,7 @@ if(isset($_POST["new_return"])){
     }
 }
 $peoples = getPeople($conn);
+$left_to_returns=getLeftTOReturn($conn);
 ?>
 <script type="text/javascript">
     $(function () {
@@ -54,17 +54,17 @@ $peoples = getPeople($conn);
 </script>
 <div class="container">
     <div class="row">
-        <div class="col-md-offset-3 col-md-9">
+        <div class="col-md-offset-2 col-md-10">
             <div id="one-row" style="margin-top: 10px">
-                <h2 style="display: inline-block">Tenant</h2>
-                <button style="float: right" type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-people">Add New Tenant</button>
+                <h2 style="display: inline-block">Change</h2>
+                <button style="float: right" type="button" class="btn btn-primary" data-toggle="modal" data-target="#add-people">Add Change</button>
             </div>
             <table id="people-list" class="display">
                 <thead>
                 <tr>
                     <th>SN</th>
                     <th>NAME</th>
-                    <th>Left To Return</th>
+                    <th>Change(Rs.)</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -86,9 +86,9 @@ $peoples = getPeople($conn);
 
                         <td>
 
-                                <a href="left_to_return.php?delete=yes&id=<?php echo $left_to_return['id'] ?>">Delete</a>
-                                <a href="#" onclick="edit_return('<?php echo $left_to_return["id"] ?>','<?php echo $left_to_return["people_id"] ?>', '<?php echo $left_to_return["remain_to_give"] ?>')">/ Edit
-                                </a>
+                            <a href="#" onclick="edit_return('<?php echo $left_to_return["id"] ?>','<?php echo $left_to_return["people_id"] ?>', '<?php echo $left_to_return["remain_to_give"] ?>')">Edit /
+                            </a>
+                            <a href="left_to_return.php?delete=yes&id=<?php echo $left_to_return['id'] ?>">Delete</a>
 
                         </td>
                     </tr>
@@ -106,7 +106,7 @@ $peoples = getPeople($conn);
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Left to Return</h4>
+                    <h4 class="modal-title">Change</h4>
                 </div>
                 <div class="modal-body">
                     <form method="post" action="left_to_return.php">
