@@ -8,7 +8,7 @@ $calendar = new Fivedots\NepaliCalendar\Calendar(new \Fivedots\NepaliCalendar\Ne
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Deepa Apartment PVT. LTD</title>
+    <title>Deepa Private Home</title>
     <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="css/jquery.dataTables.min.css">
@@ -22,7 +22,7 @@ $calendar = new Fivedots\NepaliCalendar\Calendar(new \Fivedots\NepaliCalendar\Ne
 </head>
 <body>
 <div class="nav-side-menu">
-    <div class="brand">Deepa Apartment Pvt.Ltd</div>
+    <div class="brand">Deepa Private Home</div>
     <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
 
     <div class="menu-list">

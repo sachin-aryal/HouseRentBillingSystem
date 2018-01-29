@@ -50,7 +50,7 @@ $nepali_year = $today["year"];
         <div class="col-md-offset-3 col-md-9">
             <div id="print-section" class="row" style="width:90%;padding: 30px 30px 50px;border: 2px solid black;margin: 0 auto;background-color: #d7efc5 !important;">
                 <div style="text-align: center">
-                    <h2>दिपा अपार्टमेन्ट Pvt. Ltd</h2>
+                    <h2>Deepa Private Home</h2>
                     <h3>घर भाडा</h3>
                 </div>
                 <table style="float: right;width: 20%">
