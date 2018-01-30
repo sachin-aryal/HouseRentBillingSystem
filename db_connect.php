@@ -19,7 +19,7 @@ function insert_return ($conn){
 
 }
 function insert_people($conn){
-    $name = $_POST["usr"];
+    $name = $_POST["people_name"];
     $rent = $_POST["rent"];
     $rent_date = $_POST["rent_date"];
     $email = $_POST["email"];
