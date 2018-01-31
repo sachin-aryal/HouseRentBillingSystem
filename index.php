@@ -6,7 +6,7 @@
  * Time: 10:21 AM
  */
 include_once '_header.php';
-$today = $calendar->englishToNepali(date('Y'), date('m'), date('d'));
+$today = $calendar->eng_to_nep(date('Y'), date('m'), date('d'));
 $nepali_year = $today["year"];
 $nepali_month = $today["nmonth"];
 
@@ -215,7 +215,7 @@ $unit_rate = get_electricity_price($conn);
                         <td><?php echo $rents["maintenance_cost"] ?></td>
                         <td><?php echo $rents["previous_rent"] ?></td>
                         <?php
-                        $total=$rents['rent']+$rents['electricity_bill']+$rents["water_cost"]+$rents["previous_rent"];
+                        $total=$rents['rent']+$rents['electricity_bill']+$rents["water_cost"]+$rents["previous_rent"]+$rents["maintenance_cost"];
                         if($rents['status']==0){
                             echo "<td style='color: red'>0</td>";
                         }else{
@@ -332,7 +332,7 @@ $unit_rate = get_electricity_price($conn);
                         </div>
                         <div class="form-group">
                             <label for="maintenance_cost">Maintenance Cost:</label>
-                            <input type="number" name="maintenance_cost" class="form-control" id="maintenance_cost">
+                            <input type="number" name="maintenance_cost" value="0" class="form-control" id="maintenance_cost">
                         </div>
                         <div class="form-group">
                             <label for="previous_rent">Previous Remaining:</label>
@@ -422,7 +422,7 @@ $unit_rate = get_electricity_price($conn);
                         </div>
                         <div class="form-group">
                             <label for="maintenance_cost1">Maintenance Cost:</label>
-                            <input type="number" name="maintenance_cost" class="form-control" id="maintenance_cost1">
+                            <input type="number" name="maintenance_cost" value="0" class="form-control" id="maintenance_cost1">
                         </div>
                         <div class="form-group">
                             <label for="previous_rent1">Previous Remaining:</label>

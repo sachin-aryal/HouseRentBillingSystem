@@ -1,48 +1,5 @@
 [
     {
-        "name": "fivedots/nepalicalendar",
-        "version": "v1.0",
-        "version_normalized": "1.0.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/FiveDotsSoft/Nepali-Date-Converter.git",
-            "reference": "91c411db79239ab14b918cf337621243335ef951"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/FiveDotsSoft/Nepali-Date-Converter/zipball/91c411db79239ab14b918cf337621243335ef951",
-            "reference": "91c411db79239ab14b918cf337621243335ef951",
-            "shasum": ""
-        },
-        "require": {
-            "fivedots/nepalicalendar": "*",
-            "php": ">=5.3.0"
-        },
-        "time": "2015-01-01T08:40:00+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Fivedots\\NepaliCalendar\\": "src/Fivedots/NepaliCalendar"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Samundra Shrestha",
-                "email": "samundra.shr@gmail.com"
-            },
-            {
-                "name": "Amant Tuladhar",
-                "email": "aman.tuladhar@gmail.com"
-            }
-        ],
-        "description": "Composer ready nepali calendar"
-    },
-    {
         "name": "phpmailer/phpmailer",
         "version": "v6.0.3",
         "version_normalized": "6.0.3.0",

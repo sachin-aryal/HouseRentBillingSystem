@@ -1,21 +1,23 @@
 <?php
 error_reporting(0);
 include_once 'db_connect.php';
+include_once 'nepali_calendar.php';
 $id = $_GET['id'];
 $rent = get_rent($conn, $id);
 $tenant = get_people_info($conn, $rent["people_id"]);
 require __DIR__.'/vendor/autoload.php';
-$calendar = new Fivedots\NepaliCalendar\Calendar(new \Fivedots\NepaliCalendar\NepaliDataProvider());
+$calendar = new Nepali_Calendar();
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-$today = $calendar->englishToNepali(date('Y'), date('m'), date('d'));
-$nepali_day = $today["numDay"];
+$today = $calendar->eng_to_nep(date('Y'), date('m'), date('d'));
+$nepali_day = $today["date"];
 $nepali_month = $today["nmonth"];
 $nepali_year = $today["year"];
+
 $date = $nepali_month. " ". $nepali_day. ", ".$nepali_year;
-$total = $rent['rent']+$rent['electricity_bill']+$rent["water_cost"]+$rent["previous_rent"];
+$total = $rent['rent']+$rent['electricity_bill']+$rent["water_cost"]+$rent["previous_rent"]+$rent["maintenance_cost"];
 $used_unit = $rent['current_electricity_unit'] - $rent['previous_electricity_unit'];
 ?>
 <?php
@@ -48,7 +50,9 @@ $message.='<td>'.$used_unit.' युनिट</td></tr>';
 $message.='<tr><th colspan="4">बत्तिको दर रु :</th>';
 $message.='<td>'.get_electricity_price($conn).' प्रती युनिट</td></tr>';
 $message.='<tr><th colspan="4">पानीको रु :</th>';
-$message.='<td>'.$rent['water_cost'].'</td>';
+$message.='<td>'.$rent['water_cost'].'</td></tr>';
+$message.='<tr><th colspan="4">मर्मत खर्च रु :</th>';
+$message.='<td>'.$rent["maintenance_cost"].'</td></tr>';
 $message.='<tr><th colspan="4">कुल जम्मा रु :</th>';
 $message.='<td> '.$total.' </td></tr>';
 $message.='<tr><td>&nbsp;</td></tr>';
@@ -59,7 +63,7 @@ $message.='<th> बुझिलिनेको सही </th></tr></table>';
 $message.='<table style="width: 100%;margin-top: 30px;margin-bottom: 0px;text-align: center">';
 $message.='<tr><td>बैंक खाता नम्बर:</td></tr>';
 $message.='<tr><td style="color: red; text-align: center" rowspan="2">भाडा बुझाउने अन्तिम मिति ';
-$message.=$nepali_month. "5";
+$message.=$nepali_month. " 5";
 $message.='</td></tr></table>';
 $message.='</div></div></div></div>';
 $message.='</body></html>';

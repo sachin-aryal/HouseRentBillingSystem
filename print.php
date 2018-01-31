@@ -3,8 +3,8 @@ include_once '_header.php';
 $id = $_GET['id'];
 $rent = get_rent($conn, $id);
 $people = get_people_info($conn, $rent["people_id"]);
-$today = $calendar->englishToNepali(date('Y'), date('m'), date('d'));
-$nepali_day = $today["numDay"];
+$today = $calendar->eng_to_nep(date('Y'), date('m'), date('d'));
+$nepali_day = $today["date"];
 $nepali_month = $today["nmonth"];
 $nepali_year = $today["year"];
 ?>
@@ -101,10 +101,16 @@ $nepali_year = $today["year"];
                         </td>
                     </tr>
                     <tr>
+                        <th colspan="4">मर्मत खर्च रु :</th>
+                        <td>
+                            <?php echo $rent['maintenance_cost'] ?>
+                        </td>
+                    </tr>
+                    <tr>
                         <th colspan="4">कुल जम्मा रु :</th>
                         <td>
                             <?php
-                            $total=$rent['rent']+$rent['electricity_bill']+$rent["water_cost"]+$rent["previous_rent"];
+                            $total=$rent['rent']+$rent['electricity_bill']+$rent["water_cost"]+$rent["previous_rent"]+$rent['maintenance_cost'];
                             echo $total;
                             ?>
                         </td>

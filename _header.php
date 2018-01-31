@@ -1,8 +1,10 @@
 <?php
 ob_start();
 include_once 'db_connect.php';
-require __DIR__.'/vendor/autoload.php';
-$calendar = new Fivedots\NepaliCalendar\Calendar(new \Fivedots\NepaliCalendar\NepaliDataProvider());
+include_once 'nepali_calendar.php';
+require __DIR__.'/vendor/autoload.php';date_default_timezone_set('Asia/Kathmandu');
+date_default_timezone_set('Asia/Kathmandu');
+$calendar = new Nepali_Calendar();
 error_reporting(0);
 ?>
 <!DOCTYPE html>

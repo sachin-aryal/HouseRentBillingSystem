@@ -7,5 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
-    'Fivedots\\NepaliCalendar\\' => array($vendorDir . '/fivedots/nepalicalendar/src/Fivedots/NepaliCalendar'),
 );

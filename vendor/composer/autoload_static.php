@@ -11,20 +11,12 @@ class ComposerStaticInit79af2ea764df79c4d9cd3bb255d48026
         array (
             'PHPMailer\\PHPMailer\\' => 20,
         ),
-        'F' => 
-        array (
-            'Fivedots\\NepaliCalendar\\' => 24,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
-        ),
-        'Fivedots\\NepaliCalendar\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/fivedots/nepalicalendar/src/Fivedots/NepaliCalendar',
         ),
     );
 

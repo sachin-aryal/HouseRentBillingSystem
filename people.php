@@ -6,10 +6,10 @@
  * Time: 10:34 AM
  */
 include_once '_header.php';
-$today = $calendar->englishToNepali(date('Y'), date('m'), date('d'));
+$today = $calendar->eng_to_nep(date('Y'), date('m'), date('d'));
 $nepali_year = $today["year"];
 $nepali_month = $today["month"];
-$nepali_day = $today["numDay"];
+$nepali_day = $today["date"];
 
 $message = "";
 $messageType = "";
