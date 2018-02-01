@@ -137,8 +137,8 @@ $nepali_year = $today["year"];
                 </table>
                 <table style="width: 100%;margin-top: 30px;margin-bottom: 0px;text-align: center">
                     <tr>
-                        <td>
-                            बैंक खाता नम्बर:
+                        <td style="color: blue;">
+                            बैंक खाता नम्बर (NIC ASIA): URLABARI, 7287763525524001, ANANDA PHAGU
                         </td>
                     </tr>
                     <tr>

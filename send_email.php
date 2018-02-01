@@ -61,15 +61,13 @@ $message.='<td>.....................................................</td></tr>';
 $message.='<tr><th colspan="4"> बुझाउनेको सही </th>';
 $message.='<th> बुझिलिनेको सही </th></tr></table>';
 $message.='<table style="width: 100%;margin-top: 30px;margin-bottom: 0px;text-align: center">';
-$message.='<tr><td>बैंक खाता नम्बर:</td></tr>';
+$message.='<tr><td style="color: blue;">बैंक खाता नम्बर (NIC ASIA): URLABARI,7287763525524001, ANANDA PHAGU</td></tr>';
 $message.='<tr><td style="color: red; text-align: center" rowspan="2">भाडा बुझाउने अन्तिम मिति ';
 $message.=$nepali_month. " 5";
 $message.='</td></tr></table>';
 $message.='</div></div></div></div>';
 $message.='</body></html>';
-echo $message;
-return
-$from = ''; // todo: set from email.
+$from = 'ananphagu@gmail.com'; // todo: set from email.
 $to = $tenant["email"];
 $subject = 'Rent Alert';
 $body = $message;
@@ -80,8 +78,8 @@ try {
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = ''; //todo: sender email
-    $mail->Password = ''; //tod: sender email's password
+    $mail->Username = $from;
+    $mail->Password = 'dallas604342';
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
     $mail->CharSet = 'UTF-8';

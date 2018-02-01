@@ -1,9 +1,16 @@
 <?php
 
-$db_user = "root";
+
 $db_host = "localhost";
-$db_password = "root";
-$db_name = "hrbs";
+if ($_SERVER["HTTP_HOST"] == "localhost"){
+    $db_user = "root";
+    $db_password = "root";
+    $db_name = "hrbs";
+}else{
+    $db_user = "deepahom_hrms";
+    $db_password = "deepahome12345";
+    $db_name = "deepahom_hrms";
+}
 
 $conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
 

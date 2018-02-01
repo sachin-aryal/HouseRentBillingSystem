@@ -328,7 +328,7 @@ $unit_rate = get_electricity_price($conn);
                         </div>
                         <div class="form-group">
                             <label for="water_cost">Water Cost:</label>
-                            <input type="number" name="water_cost" class="form-control" id="water_cost">
+                            <input type="number" value="0" name="water_cost" class="form-control" id="water_cost">
                         </div>
                         <div class="form-group">
                             <label for="maintenance_cost">Maintenance Cost:</label>
@@ -418,7 +418,7 @@ $unit_rate = get_electricity_price($conn);
                         </div>
                         <div class="form-group">
                             <label for="water_cost1">Water Cost:</label>
-                            <input type="number" name="water_cost" class="form-control" id="water_cost1">
+                            <input type="number" value="0" name="water_cost" class="form-control" id="water_cost1">
                         </div>
                         <div class="form-group">
                             <label for="maintenance_cost1">Maintenance Cost:</label>
