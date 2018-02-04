@@ -255,3 +255,21 @@ function get_rent($conn, $id){
     }
     return null;
 }
+
+function redirectIfNotLoggedIn(){
+    if(!isset($_SESSION["uname"])){
+        header("Location:login.php");
+    }
+}
+
+function validateLogin(){
+    session_start();
+    $uname = $_POST["uname"];
+    $pw = $_POST["pw"];
+
+    if($uname == "hrms" && $pw = "dallas604342"){
+        $_SESSION["uname"] = "hrms";
+        return true;
+    }
+    return false;
+}

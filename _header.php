@@ -6,6 +6,8 @@ require __DIR__.'/vendor/autoload.php';date_default_timezone_set('Asia/Kathmandu
 date_default_timezone_set('Asia/Kathmandu');
 $calendar = new Nepali_Calendar();
 error_reporting(0);
+session_start();
+redirectIfNotLoggedIn();
 ?>
 <!DOCTYPE html>
 <html lang="en">
