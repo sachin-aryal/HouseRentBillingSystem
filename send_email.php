@@ -62,9 +62,11 @@ $message.='<tr><th colspan="4"> बुझाउनेको सही </th>';
 $message.='<th> बुझिलिनेको सही </th></tr></table>';
 $message.='<table style="width: 100%;margin-top: 30px;margin-bottom: 0px;text-align: center">';
 $message.='<tr><td style="color: blue;">बैंक खाता नम्बर (NIC ASIA): URLABARI,7287763525524001, ANANDA PHAGU</td></tr>';
-$message.='<tr><td style="color: red; text-align: center" rowspan="2">भाडा बुझाउने अन्तिम मिति ';
+$message.='<tr><td style="color: green; text-align: center" >भाडा बुझाउने अन्तिम मिति ';
 $message.=$nepali_month. " 5";
-$message.='</td></tr></table>';
+$message.='</td></tr>';
+$message.='<tr><td style="color: red; text-align: center;border-top: 1px solid black;font-size: large">NO PETS ALLOWED !!!</td></tr>';
+$message.="</table>";
 $message.='</div></div></div></div>';
 $message.='</body></html>';
 $from = 'ananphagu@gmail.com'; // todo: set from email.
@@ -74,8 +76,8 @@ $body = $message;
 $mail = new PHPMailer(true);
 try {
     //Server settings
-//    $mail->SMTPDebug = 2;
-    $mail->isSMTP();
+//    $mail->SMTPDebug = 4;
+//    $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
     $mail->Username = $from;
@@ -96,6 +98,7 @@ try {
     header("Location:print.php?id=$id&m=y");
     return;
 } catch (Exception $e) {
+    echo $e->getMessage();
     header("Location:print.php?id=$id&m=n&me=$mail->ErrorInfo");
     return;
 }

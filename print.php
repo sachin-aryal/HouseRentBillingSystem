@@ -142,8 +142,13 @@ $nepali_year = $today["year"];
                         </td>
                     </tr>
                     <tr>
-                        <td style="color: red; text-align: center" rowspan="2">
+                        <td style="color: green; text-align: center">
                             भाडा बुझाउने अन्तिम मिति <?php echo $nepali_month ?> 5
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="color: red; text-align: center;border-top: 1px solid black;font-size: large">
+                            NO PETS ALLOWED !!!
                         </td>
                     </tr>
                 </table>
