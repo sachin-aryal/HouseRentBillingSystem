@@ -31,3 +31,9 @@ function change_ebill_edit(rate) {
     var price = (cunit-punit)*rate;
     $("#electricity_bill1").val(price);
 }
+
+function show_paid_modal(id, total_rent) {
+    $("#paid_id").val(id);
+    $("#paid_total_rent").val(total_rent);
+    $("#paid-modal").modal('show');
+}

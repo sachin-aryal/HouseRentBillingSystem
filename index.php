@@ -29,9 +29,16 @@ if(isset($_POST["new_rent"])){
         $message = "Error while updating rent.";
         $messageType = "error";
     }
-}elseif(isset($_GET['paid'])){
-    $id = $_GET['id'];
+}elseif(isset($_POST['paid'])){
+    $id = $_POST['id'];
+    $total_rent = $_POST["total_rent"];
+    $paid_money = $_POST["paid_money"];
     if(update_status($conn, $id)){
+        if($paid_money != $total_rent){
+            $rent = get_rent($conn, $id);
+            $left_to_return = $paid_money - $total_rent;
+            insert_return_f($conn, $rent["people_id"], $left_to_return);
+        }
         $message = "Rent Status Updated Successfully.";
         $messageType = "success";
     }else{
@@ -229,7 +236,7 @@ $unit_rate = get_electricity_price($conn);
                         <td>
                             <?php if($rents['status'] == 0){ ?>
                                 <a href="#" type="button" class="btn-link" onclick="editRent(<?php echo $rents['id'] ?>)" >Edit</a><br>
-                                <a class="btn-link" href="index.php?paid=true&id=<?php echo $rents['id'] ?>">Paid</a>
+                                <button style="margin-left: -8px;" type="button" onclick="show_paid_modal('<?php echo $rents['id'] ?>', '<?php echo $total ?>')" class="btn-link" data-toggle="modal">Paid</button>
                             <?php } ?>
                             <a class="btn-link" href="index.php?delete=true&id=<?php echo $rents['id'] ?>">Delete</a>
                         </td>
@@ -254,6 +261,34 @@ $unit_rate = get_electricity_price($conn);
                 </tr>
                 </tfoot>
             </table>
+        </div>
+    </div>
+
+    <div id="paid-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Paid Amount</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="index.php">
+                        <input type="hidden" name="id" id="paid_id" class="form-control"/>
+                        <div class="form-group">
+                            <label for="rent">Total Rent:</label>
+                            <input type="text" readonly="readonly" name="total_rent" id="paid_total_rent" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="rent">Paid Amount:</label>
+                            <input type="text" name="paid_money" id="paid_money" class="form-control"/>
+                        </div>
+                        <input type="submit" name="paid" class="btn btn-primary" value="Paid"/>
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
     <div id="myModal" class="modal fade" role="dialog">

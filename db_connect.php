@@ -2,7 +2,7 @@
 
 
 $db_host = "localhost";
-if ($_SERVER["HTTP_HOST"] == "localhost"){
+if (strpos($_SERVER["HTTP_HOST"], 'localhost') !== false){
     $db_user = "root";
     $db_password = "root";
     $db_name = "hrbs";
@@ -25,6 +25,16 @@ function insert_return ($conn){
     }
 
 }
+
+function insert_return_f ($conn, $people_id, $remain_to_return){
+    $query = "INSERT INTO left_to_return(remain_to_give, people_id) VALUES ($remain_to_return,$people_id)";
+    if($conn->query($query)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 function insert_people($conn){
     $name = $_POST["people_name"];
     $rent = $_POST["rent"];
