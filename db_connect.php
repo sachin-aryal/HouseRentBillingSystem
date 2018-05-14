@@ -26,6 +26,18 @@ function insert_return ($conn){
 
 }
 
+function insert_advance ($conn){
+    $people_id = $_POST["usr"];
+    $advance = $_POST["advance"];
+    $query = "INSERT INTO advance_payment(advance, people_id) VALUES ($advance, $people_id)";
+    if($conn->query($query)){
+        return true;
+    }else{
+        return false;
+    }
+
+}
+
 function insert_return_f ($conn, $people_id, $remain_to_return){
     $query = "INSERT INTO left_to_return(remain_to_give, people_id) VALUES ($remain_to_return,$people_id)";
     if($conn->query($query)){
@@ -103,8 +115,9 @@ function insert_rent($conn){
     $maintenance_cost=$_POST['maintenance_cost'];
     $electricity_bill = ($current_electricity_unit-$previous_electricity_unit)*get_electricity_price($conn);
     $previous_rent = $_POST['previous_rent'];
-    $query = "INSERT INTO rent_record(name,year,month,rent,previous_electricity_unit,current_electricity_unit,electricity_bill,water_cost, previous_rent, people_id, maintenance_cost) 
-              VALUES ('$usr',$year,'$month',$rent,$previous_electricity_unit,$current_electricity_unit,$electricity_bill,$water_cost, $previous_rent, $people_id, $maintenance_cost)";
+    $remarks = $_POST['remarks'];
+    $query = "INSERT INTO rent_record(name,year,month,rent,previous_electricity_unit,current_electricity_unit,electricity_bill,water_cost, previous_rent, people_id, maintenance_cost, remarks) 
+              VALUES ('$usr',$year,'$month',$rent,$previous_electricity_unit,$current_electricity_unit,$electricity_bill,$water_cost, $previous_rent, $people_id, $maintenance_cost, '$remarks')";
     if ($conn->query($query)){
         return true;
     }
@@ -178,6 +191,26 @@ function update_return($conn){
     }
     return false;
 }
+
+function update_advance($conn){
+    $id=$_POST['id'];
+    $people_id = $_POST["name"];
+    $advance=$_POST["advance"];
+    $query = "UPDATE advance_payment SET people_id=$people_id,advance=$advance WHERE id=$id";
+    if ($conn->query($query)){
+        return true;
+    }
+    return false;
+}
+
+function update_advance_by_people($conn, $people_id, $advance){
+    $query = "UPDATE advance_payment SET advance=$advance WHERE people_id=$people_id";
+    if ($conn->query($query)){
+        return true;
+    }
+    return false;
+}
+
 function delete_return($conn, $id){
     $query = "DELETE FROM left_to_return WHERE id=$id";
     if($conn->query($query)){
@@ -186,6 +219,16 @@ function delete_return($conn, $id){
     return false;
 
 }
+
+function delete_advance($conn, $id){
+    $query = "DELETE FROM advance_payment WHERE id=$id";
+    if($conn->query($query)){
+        return true;
+    }
+    return false;
+
+}
+
 function update_rent($conn){
     $id=$_POST['id'];
     $people_id = $_POST["usr"];
@@ -199,9 +242,10 @@ function update_rent($conn){
     $maintenance_cost=$_POST['maintenance_cost'];
     $electricity_bill = ($current_electricity_unit-$previous_electricity_unit)*get_electricity_price($conn);
     $previous_rent = $_POST["previous_rent"];
+    $remarks = $_POST["remarks"];
     $query = "UPDATE rent_record SET name='$usr',year=$year,month='$month', 
               rent=$rent,previous_electricity_unit=$previous_electricity_unit,current_electricity_unit=$current_electricity_unit,
-              water_cost=$water_cost, electricity_bill=$electricity_bill, previous_rent=$previous_rent, people_id = $people_id, maintenance_cost = $maintenance_cost WHERE id=$id";
+              water_cost=$water_cost, electricity_bill=$electricity_bill, previous_rent=$previous_rent, people_id = $people_id, maintenance_cost = $maintenance_cost, remarks = '$remarks' WHERE id=$id";
     if ($conn->query($query)){
         return true;
     }
@@ -214,6 +258,18 @@ function update_status($conn, $id){
         return true;
     }
     return false;
+}
+
+function get_advance($conn, $people_id){
+    $stmt=$conn->prepare('Select * from advance_payment where people_id=?');
+    $stmt->bind_param('i',$people_id);
+    if($stmt->execute()){
+        $result=$stmt->get_result();
+        if($result->num_rows >0){
+            return mysqli_fetch_assoc($result)["advance"];
+        }
+    }
+    return 0;
 }
 
 function delete_rent($conn, $id){
@@ -249,6 +305,15 @@ function get_electricity_price($conn){
 }
 function getLeftTOReturn($conn){
     $query = "SELECT * FROM left_to_return";
+    $result = $conn->query($query);
+    if($result->num_rows > 0){
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
+    return [];
+}
+
+function getAdvance($conn){
+    $query = "SELECT * FROM advance_payment";
     $result = $conn->query($query);
     if($result->num_rows > 0){
         return mysqli_fetch_all($result, MYSQLI_ASSOC);

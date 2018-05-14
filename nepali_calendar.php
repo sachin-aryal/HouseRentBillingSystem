@@ -231,7 +231,7 @@
 					break;
 
 				case 7:
-					$n_month = "kartik";
+					$n_month = "Kartik";
 					break;
 
 				case 8:

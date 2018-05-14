@@ -34,10 +34,16 @@ if(isset($_POST["new_rent"])){
     $total_rent = $_POST["total_rent"];
     $paid_money = $_POST["paid_money"];
     if(update_status($conn, $id)){
+        $rent = get_rent($conn, $id);
         if($paid_money != $total_rent){
-            $rent = get_rent($conn, $id);
             $left_to_return = $paid_money - $total_rent;
             insert_return_f($conn, $rent["people_id"], $left_to_return);
+        }
+        $advance = get_advance($conn, $rent["people_id"]);
+        if($advance != 0){
+            $advance_remaining = $advance - $total_rent;
+            echo $advance_remaining;
+            update_advance_by_people($conn, $rent["people_id"], $advance_remaining);
         }
         $message = "Rent Status Updated Successfully.";
         $messageType = "success";
@@ -65,8 +71,12 @@ $unit_rate = get_electricity_price($conn);
             var colheader = this.header();
             return $(colheader).text().trim();
         } );
-        $("#year").val('<?php echo $nepali_year ?>');
-        $("#month").val('<?php echo $nepali_month ?>');
+        var todayYear = '<?php echo $nepali_year ?>';
+        var todayMonth = '<?php echo $nepali_month ?>';
+        console.log(todayMonth);
+        $("#year").val(todayYear);
+        $("#month").val(todayMonth);
+
         var rent_list = $('#rent-list').DataTable({
             drawCallback: function () {
                 var api = this.api();
@@ -111,9 +121,25 @@ $unit_rate = get_electricity_price($conn);
                                 .draw();
                         } );
 
+                    var column_title = column.title();
                     column.data().unique().sort().each( function ( d, j ) {
-                        select.append( '<option value="'+d+'">'+d+'</option>' )
+                        var selected = false;
+                        if(column_title === "Year" && d === todayYear){
+                            selected = true;
+                        }else if(column_title === "Month" && d === todayMonth){
+                            selected = true;
+                        }
+                        if(selected){
+                            select.append( '<option selected="selected" value="'+d+'">'+d+'</option>' )
+                        }else{
+                            select.append( '<option value="'+d+'">'+d+'</option>' )
+                        }
                     } );
+                    $(rent_list).ready(function() {
+                        if(column_title === "Year"){
+                            column.search( todayYear ? '^'+todayYear+'$' : '', true, false ).draw();
+                        }
+                    });
                 } );
             }
         });
@@ -174,6 +200,7 @@ $unit_rate = get_electricity_price($conn);
                 $('#water_cost1').val(data.water_cost);
                 $('#previous_rent1').val(data.previous_rent);
                 $('#maintenance_cost1').val(data.maintenance_cost);
+                $('#remarks1').val(data.remarks);
                 $('#myModal1').modal('show');
                 change_ebill_edit('<?php echo $unit_rate ?>');
             }
@@ -200,6 +227,7 @@ $unit_rate = get_electricity_price($conn);
                     <th>Previous Remaining</th>
                     <th>Paid</th>
                     <th>Total</th>
+                    <th>Remarks</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -233,6 +261,7 @@ $unit_rate = get_electricity_price($conn);
                             echo $total;
                             ?>
                         </td>
+                        <td><?php echo $rents["remarks"] ?></td>
                         <td>
                             <?php if($rents['status'] == 0){ ?>
                                 <a href="#" type="button" class="btn-link" onclick="editRent(<?php echo $rents['id'] ?>)" >Edit</a><br>
@@ -331,14 +360,14 @@ $unit_rate = get_electricity_price($conn);
                         <div class="form-group">
                             <label for="month">Month:</label>
                             <select name="month" id="month" class="form-control">
-                                <option value="Baishakh">Baishakh</option>
+                                <option value="Baishak">Baishak</option>
                                 <option value="Jestha">Jestha</option>
-                                <option value="Asar">Asar</option>
-                                <option value="Sharwan">Sharwan</option>
-                                <option value="Bhadau">Bhadau</option>
-                                <option value="Aswin">Aswin</option>
+                                <option value="Ashad">Ashad</option>
+                                <option value="Shrawn">Shrawn</option>
+                                <option value="Bhadra">Bhadra</option>
+                                <option value="Ashwin">Ashwin</option>
                                 <option value="Kartik">Kartik</option>
-                                <option value="Mangsir">Mangsir</option>
+                                <option value="Mangshir">Mangshir</option>
                                 <option value="Poush">Poush</option>
                                 <option value="Magh">Magh</option>
                                 <option value="Falgun">Falgun</option>
@@ -372,6 +401,10 @@ $unit_rate = get_electricity_price($conn);
                         <div class="form-group">
                             <label for="previous_rent">Previous Remaining:</label>
                             <input value="0" type="number" name="previous_rent" class="form-control" id="previous_rent">
+                        </div>
+                        <div class="form-group">
+                            <label for="remarks">Remarks:</label>
+                            <input type="text" name="remarks" class="form-control" id="remarks">
                         </div>
                         <button class="btn btn-info" type="submit" name="new_rent" value="new_rent">Add</button>
                     </form>
@@ -421,14 +454,14 @@ $unit_rate = get_electricity_price($conn);
                         <div class="form-group">
                             <label for="month">Month:</label>
                             <select name="month" id="month1" class="form-control">
-                                <option value="Baishakh">Baishakh</option>
+                                <option value="Baishak">Baishak</option>
                                 <option value="Jestha">Jestha</option>
-                                <option value="Asar">Asar</option>
-                                <option value="Sharwan">Sharwan</option>
-                                <option value="Bhadau">Bhadau</option>
-                                <option value="Aswin">Aswin</option>
+                                <option value="Ashad">Ashad</option>
+                                <option value="Shrawn">Shrawn</option>
+                                <option value="Bhadra">Bhadra</option>
+                                <option value="Ashwin">Ashwin</option>
                                 <option value="Kartik">Kartik</option>
-                                <option value="Mangsir">Mangsir</option>
+                                <option value="Mangshir">Mangshir</option>
                                 <option value="Poush">Poush</option>
                                 <option value="Magh">Magh</option>
                                 <option value="Falgun">Falgun</option>
@@ -462,6 +495,10 @@ $unit_rate = get_electricity_price($conn);
                         <div class="form-group">
                             <label for="previous_rent1">Previous Remaining:</label>
                             <input type="number" name="previous_rent" class="form-control" id="previous_rent1">
+                        </div>
+                        <div class="form-group">
+                            <label for="remarks1">Remarks:</label>
+                            <input type="text" name="remarks" class="form-control" id="remarks1">
                         </div>
                         <button class="btn btn-info" type="submit" name="update_rent">Update</button>
                     </form>

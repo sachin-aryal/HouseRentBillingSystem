@@ -18,6 +18,15 @@ function edit_return(id, people_id, remain_to_give){
     $("#edit_return").modal('show');
 }
 
+
+function edit_advance(id, people_id, advance){
+    $("#edit_id").val(id);
+    $("#edit_name").val(people_id);
+    $("#edit_advance_payment").val(advance);
+
+    $("#edit_advance").modal('show');
+}
+
 function change_ebill(rate) {
     var punit = $("#previous_electricity_unit").val();
     var cunit = $("#current_electricity_unit").val();
@@ -35,5 +44,6 @@ function change_ebill_edit(rate) {
 function show_paid_modal(id, total_rent) {
     $("#paid_id").val(id);
     $("#paid_total_rent").val(total_rent);
+    $("#paid_money").val(total_rent);
     $("#paid-modal").modal('show');
 }
