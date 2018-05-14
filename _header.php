@@ -47,7 +47,7 @@ redirectIfNotLoggedIn();
                 <a href="left_to_return.php"><i class="fa fa-bell fa-lg"></i> Change</a>
             </li>
             <li>
-                <a href="advance.php"><i class="fa fa-bell fa-lg"></i> Advance Payment</a>
+                <a href="advance.php"><i class="fa fa-audio-description fa-lg"></i> Advance Payment</a>
             </li>
         </ul>
     </div>
