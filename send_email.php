@@ -15,8 +15,10 @@ $today = $calendar->eng_to_nep(date('Y'), date('m'), date('d'));
 $nepali_day = $today["date"];
 $nepali_month = $today["nmonth"];
 $nepali_year = $today["year"];
+$rent_year = $rent["year"];
+$rent_month = $rent["month"];
 
-$date = $nepali_month. " ". $nepali_day. ", ".$nepali_year;
+$date = $rent_year. ' '. $rent_month;
 $total = $rent['rent']+$rent['electricity_bill']+$rent["water_cost"]+$rent["previous_rent"]+$rent["maintenance_cost"];
 $used_unit = $rent['current_electricity_unit'] - $rent['previous_electricity_unit'];
 ?>
@@ -64,6 +66,9 @@ $message.='<table style="width: 100%;margin-top: 30px;margin-bottom: 0px;text-al
 $message.='<tr><td style="color: blue;">बैंक खाता नम्बर (NIC ASIA): URLABARI,7287763525524001, ANANDA PHAGU</td></tr>';
 $message.='<tr><td style="color: green; text-align: center" >भाडा बुझाउने अन्तिम मिति ';
 $message.=$nepali_month. " 5";
+$message.='</td></tr>';
+$message.='<tr><td style="text-align: center;border-top: 1px solid black;">';
+$message.=$rent["remarks"];
 $message.='</td></tr>';
 $message.='<tr><td style="color: red; text-align: center;border-top: 1px solid black;font-size: large">NO PETS ALLOWED !!!</td></tr>';
 $message.="</table>";

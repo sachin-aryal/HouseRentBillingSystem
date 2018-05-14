@@ -7,6 +7,9 @@ $today = $calendar->eng_to_nep(date('Y'), date('m'), date('d'));
 $nepali_day = $today["date"];
 $nepali_month = $today["nmonth"];
 $nepali_year = $today["year"];
+
+$rent_year = $rent["year"];
+$rent_month = $rent["month"];
 ?>
 <meta charset="utf-8"/>
 <script src="js/jquery.PrintArea.js" type="text/javascript"></script>
@@ -48,7 +51,7 @@ $nepali_year = $today["year"];
 <div class="container">
     <div class="row">
         <div class="col-md-offset-3 col-md-9">
-            <div id="print-section" class="row" style="width:90%;padding: 30px 30px 10px;border: 2px solid black;margin: 0 auto;background-color: #d7efc5 !important;">
+            <div id="print-section" class="row" style="width:95%;padding: 30px 30px 10px;border: 2px solid black;margin: 0 auto;background-color: #d7efc5 !important;">
                 <div style="text-align: center">
                     <h2>Deepa Private Home</h2>
                     <h3>घर भाडा</h3>
@@ -56,7 +59,7 @@ $nepali_year = $today["year"];
                 <table style="float: right;width: 20%">
                     <tr>
                         <th colspan="2">मिति :</th>
-                        <td><?php echo $nepali_month. ' '. $nepali_day.', '.$nepali_year ?></td>
+                        <td><?php echo $rent_year. ' '. $rent_month ?></td>
                     </tr>
                 </table>
                 <table style="width: 100%">
@@ -144,6 +147,11 @@ $nepali_year = $today["year"];
                     <tr>
                         <td style="color: green; text-align: center">
                             भाडा बुझाउने अन्तिम मिति <?php echo $nepali_month ?> 5
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;border-top: 1px solid black;">
+                            <?php echo $rent["remarks"] ?>
                         </td>
                     </tr>
                     <tr>
