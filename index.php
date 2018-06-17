@@ -73,11 +73,11 @@ $unit_rate = get_electricity_price($conn);
         } );
         var todayYear = '<?php echo $nepali_year ?>';
         var todayMonth = '<?php echo $nepali_month ?>';
-        console.log(todayMonth);
         $("#year").val(todayYear);
         $("#month").val(todayMonth);
 
         var rent_list = $('#rent-list').DataTable({
+            "pageLength": 25,
             drawCallback: function () {
                 var api = this.api();
                 $( api.column( 0 ).footer() ).html('Total');
