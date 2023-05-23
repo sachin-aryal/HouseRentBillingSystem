@@ -74,7 +74,7 @@ $message.='<tr><td style="color: red; text-align: center;border-top: 1px solid b
 $message.="</table>";
 $message.='</div></div></div></div>';
 $message.='</body></html>';
-$from = 'ananphagu@gmail.com'; // todo: set from email.
+$from = ''; // todo: set from email.
 $to = $tenant["email"];
 $subject = 'Rent Alert';
 $body = $message;
@@ -86,7 +86,7 @@ try {
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
     $mail->Username = $from;
-    $mail->Password = 'dallas604342';
+    $mail->Password = '';
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
     $mail->CharSet = 'UTF-8';
